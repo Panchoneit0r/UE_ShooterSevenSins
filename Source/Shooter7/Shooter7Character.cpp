@@ -15,7 +15,6 @@
 AShooter7Character::AShooter7Character()
 {
 	// Character doesnt have a rifle at start
-	bHasRifle = false;
 	
 	// Set size for collision capsule
 	GetCapsuleComponent()->InitCapsuleSize(55.f, 96.0f);
@@ -34,14 +33,16 @@ AShooter7Character::AShooter7Character()
 	Mesh1P->CastShadow = false;
 	//Mesh1P->SetRelativeRotation(FRotator(0.9f, -19.19f, 5.2f));
 	Mesh1P->SetRelativeLocation(FVector(-30.f, 0.f, -150.f));
-
+	
+	
 }
 
 void AShooter7Character::BeginPlay()
 {
 	// Call the base class  
 	Super::BeginPlay();
-
+	
+	
 	//Add Input Mapping Context
 	if (APlayerController* PlayerController = Cast<APlayerController>(Controller))
 	{
@@ -69,6 +70,16 @@ void AShooter7Character::SetupPlayerInputComponent(class UInputComponent* Player
 
 		//Looking
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AShooter7Character::Look);
+
+		//Shot
+		EnhancedInputComponent->BindAction(ShotAction, ETriggerEvent::Triggered, this, &AShooter7Character::ActivateWeapon);
+		EnhancedInputComponent->BindAction(ShotAction, ETriggerEvent::Completed, this, &AShooter7Character::DesactivateWeapon);
+
+		//Reloded
+		EnhancedInputComponent->BindAction(RelodedAction, ETriggerEvent::Triggered, this, &AShooter7Character::Reloded);
+
+		//Change
+		EnhancedInputComponent->BindAction(ChangeWeaponAction, ETriggerEvent::Completed, this, &AShooter7Character::ChangeWeapon);
 	}
 }
 
@@ -99,12 +110,3 @@ void AShooter7Character::Look(const FInputActionValue& Value)
 	}
 }
 
-void AShooter7Character::SetHasRifle(bool bNewHasRifle)
-{
-	bHasRifle = bNewHasRifle;
-}
-
-bool AShooter7Character::GetHasRifle()
-{
-	return bHasRifle;
-}

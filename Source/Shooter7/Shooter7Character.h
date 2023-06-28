@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "InputActionValue.h"
+#include "TP_WeaponComponent.h"
 #include "Shooter7Character.generated.h"
 
 class UInputComponent;
@@ -20,7 +21,7 @@ class AShooter7Character : public ACharacter
 	GENERATED_BODY()
 
 	/** Pawn mesh: 1st person view (arms; seen only by self) */
-	UPROPERTY(VisibleDefaultsOnly, Category=Mesh)
+	UPROPERTY(VisibleDefaultsOnly,Category=Mesh)
 	USkeletalMeshComponent* Mesh1P;
 
 	/** First person camera */
@@ -39,7 +40,15 @@ class AShooter7Character : public ACharacter
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
 	class UInputAction* MoveAction;
 
-	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
+	class UInputAction* ShotAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
+	class UInputAction* ChangeWeaponAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
+	class UInputAction* RelodedAction;
+
 public:
 	AShooter7Character();
 
@@ -52,17 +61,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* LookAction;
 
-	/** Bool for AnimBP to switch to another animation set */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Weapon)
-	bool bHasRifle;
-
-	/** Setter to set the bool */
-	UFUNCTION(BlueprintCallable, Category = Weapon)
-	void SetHasRifle(bool bNewHasRifle);
-
-	/** Getter for the bool */
-	UFUNCTION(BlueprintCallable, Category = Weapon)
-	bool GetHasRifle();
 
 protected:
 	/** Called for movement input */
@@ -71,6 +69,19 @@ protected:
 	/** Called for looking input */
 	void Look(const FInputActionValue& Value);
 
+	UFUNCTION(BlueprintImplementableEvent, Category="Weapon")
+	void ChangeWeapon();
+
+	UFUNCTION(BlueprintImplementableEvent, Category="Weapon")
+	void Reloded();
+
+	UFUNCTION(BlueprintImplementableEvent, Category="Weapon")
+	void ActivateWeapon();
+
+	UFUNCTION(BlueprintImplementableEvent, Category="Weapon")
+	void DesactivateWeapon();
+	
+
 protected:
 	// APawn interface
 	virtual void SetupPlayerInputComponent(UInputComponent* InputComponent) override;
@@ -78,10 +89,11 @@ protected:
 
 public:
 	/** Returns Mesh1P subobject **/
+	UFUNCTION(BlueprintCallable)
 	USkeletalMeshComponent* GetMesh1P() const { return Mesh1P; }
 	/** Returns FirstPersonCameraComponent subobject **/
 	UCameraComponent* GetFirstPersonCameraComponent() const { return FirstPersonCameraComponent; }
-
-
+	
 };
+
 
