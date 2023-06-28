@@ -2,6 +2,7 @@
 
 
 #include "Weapons.h"
+#include "Components/BoxComponent.h"
 
 // Sets default values
 AWeapons::AWeapons()
@@ -9,9 +10,22 @@ AWeapons::AWeapons()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	WeaponMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("GranadeMesh"));
-	WeaponMesh->SetupAttachment(RootComponent);
+	BoxCollision = CreateDefaultSubobject<UBoxComponent>(TEXT("BoxComponent"));
+	BoxCollision->SetupAttachment(RootComponent);
+	
+	WeaponMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("WeaponMesh"));
+	WeaponMesh->SetupAttachment(BoxCollision);
 
+}
+
+void AWeapons::FireTriCall()
+{
+	FireTrigered();
+}
+
+void AWeapons::FireEndCall()
+{
+	FireEnd();
 }
 
 // Called when the game starts or when spawned
