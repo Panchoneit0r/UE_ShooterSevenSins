@@ -13,6 +13,9 @@ class SHOOTER7_API AWeapons : public AActor
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Movement, meta = (AllowPrivateAccess = "true"))
 	class UStaticMeshComponent* WeaponMesh;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Physics, meta = (AllowPrivateAccess = "true"))
+	class UBoxComponent* BoxCollision;
 	
 public:	
 	// Sets default values for this actor's properties
@@ -31,6 +34,12 @@ public:
 
 	UFUNCTION(BlueprintImplementableEvent, Category="Weapon")
 	void FireEnd();
+
+	UFUNCTION(BlueprintCallable)
+	void FireTriCall();
+
+	UFUNCTION(BlueprintCallable)
+	void FireEndCall();
 
 protected:
 	// Called when the game starts or when spawned
