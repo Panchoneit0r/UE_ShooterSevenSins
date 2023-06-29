@@ -11,6 +11,13 @@
 *.gch
 *.pch
 
+# Mac OS X
+.DS_Store
+.DS_Store?
+.AppleDouble
+.LSOverride
+._*
+
 # Compiled Dynamic libraries
 *.so
 *.dylib
